@@ -2,6 +2,7 @@ package next;
 
 import java.io.File;
 
+import core.config.BeanFactory;
 import org.apache.catalina.startup.Tomcat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,5 +20,6 @@ public class WebServerLauncher {
 
         tomcat.start();
         tomcat.getServer().await();
+        BeanFactory.init();
     }
 }
