@@ -28,17 +28,18 @@ public class BeanFactory {
     }
 
     public static void init(){
-        Reflections reflections = new Reflections("next");
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(RequestMapping.class);
 
-        for (Class<?> clazz : annotated) {
-            try{
-                if(clazz.isInstance(Controller.class)){
-                    put(clazz.getAnnotation(RequestMapping.class).value(), clazz.newInstance());
-                }
-            }catch (Exception e){
-                log.error("bean factory init error : ", e);
-            }
+//        Reflections reflections = new Reflections("next");
+//        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(RequestMapping.class);
+//
+//        for (Class<?> clazz : annotated) {
+//            try{
+//                if(clazz.isInstance(Controller.class)){
+//                    put(clazz.getAnnotation(RequestMapping.class).value(), clazz.newInstance());
+//                }
+//            }catch (Exception e){
+//                log.error("bean factory init error : ", e);
+//            }
 
 //            RequestMapping request = controller.getAnnotation(RequestMapping.class);
 //            String url = request.value();
@@ -47,7 +48,7 @@ public class BeanFactory {
 //            } catch (Exception e){
 //                log.error("bean factory init error : ", e);
 //            }
-        }
+//        }
 
     }
 }

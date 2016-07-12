@@ -19,7 +19,7 @@ public class HomeController implements Controller {
 //    }
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String run(HttpServletRequest req, HttpServletResponse res) {
         req.setAttribute("users", DataBase.findAll());
         return "index.jsp";
     }

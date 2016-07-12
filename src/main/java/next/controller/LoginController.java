@@ -14,7 +14,7 @@ public class LoginController implements Controller {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String run(HttpServletRequest req, HttpServletResponse res) {
         String userId = req.getParameter("userId");
         String password = req.getParameter("password");
         User user = DataBase.findUserById(userId);

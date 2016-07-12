@@ -17,7 +17,7 @@ public class CreateUserController implements Controller {
     private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res) {
+	public String run(HttpServletRequest req, HttpServletResponse res) {
 		User user = new User(
 				req.getParameter("userId"),
 				req.getParameter("password"),

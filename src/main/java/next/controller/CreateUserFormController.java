@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateUserFormController implements Controller {
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String run(HttpServletRequest req, HttpServletResponse res) {
         return "/user/form.jsp";
     }
 }

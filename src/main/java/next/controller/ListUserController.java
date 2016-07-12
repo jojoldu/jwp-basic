@@ -25,7 +25,7 @@ public class ListUserController implements Controller {
 //    }
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res) {
+	public String run(HttpServletRequest req, HttpServletResponse res) {
 		if (!UserSessionUtils.isLogined(req.getSession())) {
 			return "/users/loginForm";
 		}

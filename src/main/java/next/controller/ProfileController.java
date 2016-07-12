@@ -25,7 +25,7 @@ public class ProfileController implements Controller {
 //    }
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String run(HttpServletRequest req, HttpServletResponse res) {
         String userId = req.getParameter("userId");
         User user = DataBase.findUserById(userId);
         if (user == null) {

@@ -14,7 +14,7 @@ public class LoginFormController implements Controller {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String run(HttpServletRequest req, HttpServletResponse res) {
         return "/user/login.jsp";
     }
 
