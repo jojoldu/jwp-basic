@@ -19,8 +19,8 @@ public class DispatcherServlet extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-        Controller controller = BeanFactory.get(url);
-        String view = controller.run(req,resp);
+        Controller controller = (Controller) BeanFactory.get(url);
+        String view = controller.execute(req,resp);
         this.forward(view, req, resp);
     }
 

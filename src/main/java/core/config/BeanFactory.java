@@ -1,8 +1,6 @@
 package core.config;
 
 import core.annotations.RequestMapping;
-import next.controller.Controller;
-import next.controller.CreateUserController;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,38 +15,23 @@ import java.util.Set;
 public class BeanFactory {
     private static final Logger log = LoggerFactory.getLogger(BeanFactory.class);
 
-    public static Map<String, Controller> db = new HashMap<>();
+    public static Map<String, Object> beanTable = new HashMap<>();
 
-    public static Controller get(String key){
-        return db.get(key);
+    public static Object get(String key){
+        return beanTable.get(key);
     }
 
-    public static void put(String key, Controller clazz){
-        db.put(key, clazz);
+    public static void put(String key, Object clazz){
+        beanTable.put(key, clazz);
     }
 
-    public static void init(){
-
-//        Reflections reflections = new Reflections("next");
-//        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(RequestMapping.class);
-//
-//        for (Class<?> clazz : annotated) {
-//            try{
-//                if(clazz.isInstance(Controller.class)){
-//                    put(clazz.getAnnotation(RequestMapping.class).value(), clazz.newInstance());
-//                }
-//            }catch (Exception e){
-//                log.error("bean factory init error : ", e);
-//            }
-
-//            RequestMapping request = controller.getAnnotation(RequestMapping.class);
-//            String url = request.value();
-//            try {
-//                put(url, controller.newInstance());
-//            } catch (Exception e){
-//                log.error("bean factory init error : ", e);
-//            }
-//        }
-
+    public static void init() throws Exception{
+        Reflections reflector = new Reflections("");
+        Set<Class<?>> classes = reflector.getTypesAnnotatedWith(RequestMapping.class);
+        String key;
+        for(Class<?> clazz : classes){
+            key = clazz.getAnnotation(RequestMapping.class).value();
+            put(key, clazz.newInstance());
+        }
     }
 }
