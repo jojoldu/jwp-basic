@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.ConnectionManager;
+import core.jdbc.JdbcTemplate;
+import core.jdbc.RowMapper;
+import core.jdbc.PreparedGenerator;
 import next.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserDao {
+	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	public void insert(User user) throws SQLException {
 		Connection con = null;
@@ -35,7 +41,7 @@ public class UserDao {
 			}
 		}
 	}
-	
+
 	public void update(User user) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -59,7 +65,7 @@ public class UserDao {
 			}
 		}
 	}
-	
+
 	public List<User> findAll() throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -95,37 +101,23 @@ public class UserDao {
 	}
 
 	public User findByUserId(String userId) throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			con = ConnectionManager.getConnection();
-			String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, userId);
-
-			rs = pstmt.executeQuery();
-
-			User user = null;
-			if (rs.next()) {
-				user = new User(
-						rs.getString("userId"), 
-						rs.getString("password"), 
-						rs.getString("name"),
-						rs.getString("email"));
-			}
-
-			return user;
-		} finally {
-			if (rs != null) {
-				rs.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			if (con != null) {
-				con.close();
-			}
-		}
+		return (User)JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
+				(pstmt) -> {
+					pstmt.setString(1, userId);
+					return pstmt;
+				},
+				(rs) -> {
+					User user = null;
+					if (rs.next()) {
+						user = new User(
+								rs.getString("userId"),
+								rs.getString("password"),
+								rs.getString("name"),
+								rs.getString("email"));
+					}
+					return user;
+				}
+		);
 	}
+
 }

@@ -41,4 +41,12 @@ public class UserDaoTest {
         List<User> users = userDao.findAll();
         assertEquals(1, users.size());
     }
+
+    @Test
+    public void findByUserId() throws Exception {
+        UserDao userDao = new UserDao();
+        User user = userDao.findByUserId("admin");
+        assertEquals(user.getEmail(), "admin@slipp.net");
+    }
+
 }
