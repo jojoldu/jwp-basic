@@ -67,38 +67,21 @@ public class UserDao {
 	}
 
 	public List<User> findAll() throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<User> list = new ArrayList<>();
-
-		try {
-			con = ConnectionManager.getConnection();
-			String sql = "SELECT userId, password, name, email FROM USERS";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while(rs.next()){
-				list.add(new User(
-						rs.getString("userId"),
-						rs.getString("password"),
-						rs.getString("name"),
-						rs.getString("email")));
-			}
-
-		} finally {
-			if (rs != null) {
-				rs.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			if (con != null) {
-				con.close();
-			}
-		}
-		return list;
+		return (List<User>) JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS",
+				(pstmt) -> pstmt,
+				(rs) -> {
+					List<User> list = new ArrayList<>();
+					while (rs.next()) {
+						list.add(new User(
+								rs.getString("userId"),
+								rs.getString("password"),
+								rs.getString("name"),
+								rs.getString("email")));
+					}
+					return list;
+				});
 	}
+
 
 	public User findByUserId(String userId) throws SQLException {
 		return (User)JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
