@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@WebServlet(value = { "/users/update", "/users/updateForm" })
 @RequestMapping(value = "/users/updateForm")
 public class UpdateUserFormController implements Controller {
     private static final long serialVersionUID = 1L;
