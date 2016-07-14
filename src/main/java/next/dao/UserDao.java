@@ -1,16 +1,10 @@
 package next.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.jdbc.ConnectionManager;
 import core.jdbc.JdbcTemplate;
-import core.jdbc.RowMapper;
-import core.jdbc.PreparedGenerator;
 import next.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,28 +12,16 @@ import org.slf4j.LoggerFactory;
 public class UserDao {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
-	public void insert(User user) throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		try {
-			con = ConnectionManager.getConnection();
-			String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, user.getUserId());
-			pstmt.setString(2, user.getPassword());
-			pstmt.setString(3, user.getName());
-			pstmt.setString(4, user.getEmail());
+	public int insert(User user) throws SQLException {
+		return JdbcTemplate.update("INSERT INTO USERS VALUES (?, ?, ?, ?)",
+				(pstmt)->{
+					pstmt.setString(1, user.getUserId());
+					pstmt.setString(2, user.getPassword());
+					pstmt.setString(3, user.getName());
+					pstmt.setString(4, user.getEmail());
 
-			pstmt.executeUpdate();
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-			}
-
-			if (con != null) {
-				con.close();
-			}
-		}
+					return pstmt;
+				});
 	}
 
 	public int update(User user) throws SQLException {

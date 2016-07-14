@@ -61,4 +61,11 @@ public class UserDaoTest {
         User updateUser = userDao.findByUserId("admin");
         assertThat(updateUser.getEmail(), is("sanjigi@email.com"));
     }
+
+    @Test
+    public void insert() throws Exception {
+        userDao.insert(new User("jojoldu", "password2", "name2", "jojoldu@email.com"));
+        User user = userDao.findByUserId("jojoldu");
+        assertThat(user.getEmail(), is("jojoldu@email.com"));
+    }
 }
