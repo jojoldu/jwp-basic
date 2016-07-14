@@ -15,6 +15,17 @@ import java.sql.SQLException;
 public class JdbcTemplate {
     private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
+    public static int update(String sql, PreparedGenerator preparedGenerator) throws SQLException{
+        try(Connection con = ConnectionManager.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            return preparedGenerator.map(pstmt).executeUpdate();
+        }catch(SQLException se){
+            logger.error("update Exception : ", se);
+            throw new SQLException();
+        }
+    }
+
     public static Object queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
