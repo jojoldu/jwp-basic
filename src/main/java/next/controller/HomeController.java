@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import core.annotations.RequestMapping;
 import core.db.DataBase;
 
-@RequestMapping(value = "")
+@RequestMapping(value = "/")
 public class HomeController implements Controller {
     private static final long serialVersionUID = 1L;
 
