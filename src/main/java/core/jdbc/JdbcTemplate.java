@@ -15,38 +15,38 @@ import java.util.List;
 public class JdbcTemplate {
     private static final Logger logger = LoggerFactory.getLogger(JdbcTemplate.class);
 
-    public static int saveOrUpdate(String sql) throws SQLException{
+    public static int saveOrUpdate(String sql){
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql)){
 
             return pstmt.executeUpdate();
         }catch(SQLException se){
             logger.error("saveOrUpdate Exception : ", se);
-            throw new SQLException();
+            throw new RuntimeException();
         }
     }
 
-    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<T> elementType) throws SQLException{
+    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<T> elementType){
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
             return elementType.cast(rowMapper.execute(rs));
         }catch(SQLException se){
-            logger.error("execute Exception : ", se);
-            throw new SQLException();
+            logger.error("queryForObject Exception : ", se);
+            throw new RuntimeException();
         }
     }
 
-    public static <T> List<T> queryForList(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<List<T>> elementType) throws SQLException{
+    public static <T> List<T> queryForList(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<List<T>> elementType){
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
             return elementType.cast(rowMapper.execute(rs));
         }catch(SQLException se){
-            logger.error("execute Exception : ", se);
-            throw new SQLException();
+            logger.error("queryForList Exception : ", se);
+            throw new RuntimeException();
         }
     }
 

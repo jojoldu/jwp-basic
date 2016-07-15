@@ -13,16 +13,16 @@ import org.slf4j.LoggerFactory;
 public class UserDao {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
-	public int insert(User user) throws SQLException {
+	public int insert(User user) {
 		return Jpa.save(user);
 	}
 
-	public int update(User user) throws SQLException {
+	public int update(User user) {
 		return Jpa.update(user);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<User> findAll() throws SQLException {
+	public List<User> findAll() {
 		return JdbcTemplate.queryForList("SELECT userId, password, name, email FROM USERS",
 				(pstmt) -> pstmt,
 				(rs) -> {
@@ -41,7 +41,7 @@ public class UserDao {
 	}
 
 
-	public User findByUserId(String userId) throws SQLException {
+	public User findByUserId(String userId) {
 		return JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
 				(pstmt) -> {
 					pstmt.setString(1, userId);
