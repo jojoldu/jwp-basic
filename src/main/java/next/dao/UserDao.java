@@ -53,7 +53,7 @@ public class UserDao {
 
 
 	public User findByUserId(String userId) throws SQLException {
-		return (User)JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
+		return JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
 				(pstmt) -> {
 					pstmt.setString(1, userId);
 					return pstmt;

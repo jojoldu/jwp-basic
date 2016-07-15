@@ -27,12 +27,12 @@ public class JdbcTemplate {
         }
     }
 
-    public static Object queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
+    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
-            return rowMapper.execute(rs);
+            return (T) rowMapper.execute(rs);
         }catch(SQLException se){
             logger.error("execute Exception : ", se);
             throw new SQLException();
