@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by jojoldu@gmail.com on 2016-07-14.
@@ -32,6 +33,18 @@ public class JdbcTemplate {
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
             return rowMapper.execute(rs);
+        }catch(SQLException se){
+            logger.error("execute Exception : ", se);
+            throw new SQLException();
+        }
+    }
+
+    public static <T> List<T> queryForList(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
+        try(Connection con = ConnectionManager.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
+
+            return (List<T>) rowMapper.execute(rs);
         }catch(SQLException se){
             logger.error("execute Exception : ", se);
             throw new SQLException();

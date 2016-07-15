@@ -36,7 +36,7 @@ public class UserDao {
 	}
 
 	public List<User> findAll() throws SQLException {
-		return (List<User>) JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS",
+		return JdbcTemplate.queryForList("SELECT userId, password, name, email FROM USERS",
 				(pstmt) -> pstmt,
 				(rs) -> {
 					List<User> list = new ArrayList<>();
