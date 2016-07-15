@@ -27,24 +27,24 @@ public class JdbcTemplate {
         }
     }
 
-    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
+    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<T> elementType) throws SQLException{
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
-            return (T) rowMapper.execute(rs);
+            return elementType.cast(rowMapper.execute(rs));
         }catch(SQLException se){
             logger.error("execute Exception : ", se);
             throw new SQLException();
         }
     }
 
-    public static <T> List<T> queryForList(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper) throws SQLException{
+    public static <T> List<T> queryForList(String sql, PreparedGenerator preparedGenerator, RowMapper rowMapper, Class<List<T>> elementType) throws SQLException{
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
 
-            return (List<T>) rowMapper.execute(rs);
+            return elementType.cast(rowMapper.execute(rs));
         }catch(SQLException se){
             logger.error("execute Exception : ", se);
             throw new SQLException();

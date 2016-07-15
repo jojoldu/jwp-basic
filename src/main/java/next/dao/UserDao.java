@@ -35,6 +35,7 @@ public class UserDao {
 				});
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User> findAll() throws SQLException {
 		return JdbcTemplate.queryForList("SELECT userId, password, name, email FROM USERS",
 				(pstmt) -> pstmt,
@@ -48,7 +49,9 @@ public class UserDao {
 								rs.getString("email")));
 					}
 					return list;
-				});
+				},
+				(Class<List<User>>)(Object)List.class
+		);
 	}
 
 
@@ -68,7 +71,8 @@ public class UserDao {
 								rs.getString("email"));
 					}
 					return user;
-				}
+				},
+				User.class
 		);
 	}
 
