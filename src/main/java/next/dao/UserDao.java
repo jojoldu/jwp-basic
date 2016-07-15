@@ -18,14 +18,7 @@ public class UserDao {
 	}
 
 	public int update(User user) throws SQLException {
-		return JdbcTemplate.update("UPDATE USERS SET password=?, name=?, email=? where userId=?",
-				(pstmt)->{
-					pstmt.setString(1, user.getPassword());
-					pstmt.setString(2, user.getName());
-					pstmt.setString(3, user.getEmail());
-					pstmt.setString(4, user.getUserId());
-					return pstmt;
-				});
+		return Jpa.update(user);
 	}
 
 	@SuppressWarnings("unchecked")

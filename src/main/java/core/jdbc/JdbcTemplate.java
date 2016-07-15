@@ -15,24 +15,13 @@ import java.util.List;
 public class JdbcTemplate {
     private static final Logger logger = LoggerFactory.getLogger(JdbcTemplate.class);
 
-    public static int insert(String sql) throws SQLException{
+    public static int saveOrUpdate(String sql) throws SQLException{
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql)){
 
             return pstmt.executeUpdate();
         }catch(SQLException se){
-            logger.error("update Exception : ", se);
-            throw new SQLException();
-        }
-    }
-
-    public static int update(String sql, PreparedGenerator preparedGenerator) throws SQLException{
-        try(Connection con = ConnectionManager.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sql)){
-
-            return preparedGenerator.map(pstmt).executeUpdate();
-        }catch(SQLException se){
-            logger.error("update Exception : ", se);
+            logger.error("saveOrUpdate Exception : ", se);
             throw new SQLException();
         }
     }

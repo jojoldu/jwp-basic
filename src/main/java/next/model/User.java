@@ -1,6 +1,7 @@
 package next.model;
 
 import core.annotations.Column;
+import core.annotations.Id;
 import core.annotations.Table;
 
 @Table(name="USERS")
@@ -17,6 +18,7 @@ public class User {
 		this.email = email;
 	}
 
+	@Id
 	@Column(name = "userId")
 	public String getUserId() {
 		return userId;

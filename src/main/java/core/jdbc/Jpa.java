@@ -12,11 +12,20 @@ public class Jpa {
     public static <T>int save(T t){
         Query query = new Query<>(t);
         try{
-            return JdbcTemplate.insert(QueryGenerator.getSave(query.getSaveData()));
+            return JdbcTemplate.saveOrUpdate(QueryGenerator.getSave(query.getSaveData()));
         }catch (Exception e){
             logger.error("Jpa save error", e);
             return 0;
         }
+    }
 
+    public static <T> int update(T t){
+        Query query = new Query<>(t);
+        try{
+            return JdbcTemplate.saveOrUpdate(QueryGenerator.getUpdateForObject(query.getUpdateData()));
+        }catch (Exception e){
+            logger.error("Jpa update error", e);
+            return 0;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package core.jdbc;
 
+import core.annotations.Id;
 import core.annotations.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class Query<T> {
 
     private String table;
     private List<Column> columns;
+    private Column id;
 
     public Query(T t) {
         this.table = t.getClass().getAnnotation(Table.class).name();
@@ -28,7 +30,11 @@ public class Query<T> {
             core.annotations.Column column = m.getAnnotation(core.annotations.Column.class);
             if(column != null){
                 try {
-                    columns.add(new Column(column.name(), (String)m.invoke(t)));
+                    Column c = new Column(column.name(), (String)m.invoke(t));
+                    columns.add(c);
+                    if(m.getAnnotation(Id.class) != null){
+                        this.id = c;
+                    }
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                 }
@@ -44,12 +50,33 @@ public class Query<T> {
         return columns;
     }
 
+    public Column getId() {
+        return id;
+    }
+
     public Map<String, String> getSaveData(){
         Map<String, String> data = new LinkedHashMap<>();
         data.put("table", this.table);
         data.put("columns", this.columns.stream().map(column -> column.getKey()).collect(Collectors.joining(",")));
-        data.put("parameters", this.columns.stream().map(column -> "\'"+column.getValue()+"\'").collect(Collectors.joining(",")));
+        data.put("parameters", this.columns.stream().map(column -> toSqlColumn(column.getValue())).collect(Collectors.joining(",")));
 
         return data;
+    }
+
+    public Map<String, String> getUpdateData(){
+        Map<String, String> data = new LinkedHashMap<>();
+        data.put("table", this.table);
+        data.put("parameters", this.columns
+                .stream()
+                .filter(column -> column.getValue() != null && !column.getValue().isEmpty())
+                .map(column -> column.getKey()+"="+toSqlColumn(column.getValue()))
+                .collect(Collectors.joining(",")));
+        data.put("condition", this.id.getKey()+"="+toSqlColumn(this.id.getValue()));
+
+        return data;
+    }
+
+    private String toSqlColumn(String value){
+        return "\'"+value+"\'";
     }
 }
