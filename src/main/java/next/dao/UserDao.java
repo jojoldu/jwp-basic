@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.JdbcTemplate;
+import core.jdbc.Jpa;
 import next.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +14,7 @@ public class UserDao {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	public int insert(User user) throws SQLException {
-		return JdbcTemplate.update("INSERT INTO USERS VALUES (?, ?, ?, ?)",
-				(pstmt)->{
-					pstmt.setString(1, user.getUserId());
-					pstmt.setString(2, user.getPassword());
-					pstmt.setString(3, user.getName());
-					pstmt.setString(4, user.getEmail());
-
-					return pstmt;
-				});
+		return Jpa.save(user);
 	}
 
 	public int update(User user) throws SQLException {

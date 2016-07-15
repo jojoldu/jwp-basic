@@ -1,5 +1,9 @@
 package next.model;
 
+import core.annotations.Column;
+import core.annotations.Table;
+
+@Table(name="USERS")
 public class User {
 	private String userId;
 	private String password;
@@ -13,18 +17,22 @@ public class User {
 		this.email = email;
 	}
 
+	@Column(name = "userId")
 	public String getUserId() {
 		return userId;
 	}
 
+	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
 
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
 
+	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
