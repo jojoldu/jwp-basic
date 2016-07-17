@@ -1,4 +1,4 @@
-package core.jdbc;
+package core.orm;
 
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package core.jdbc;
+package core.orm;
 
 /**
  * Created by jojoldu@zuminternet.com on 2016-07-15.

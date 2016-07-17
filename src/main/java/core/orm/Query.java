@@ -1,4 +1,4 @@
-package core.jdbc;
+package core.orm;
 
 import core.annotations.Id;
 import core.annotations.Table;
@@ -54,9 +54,14 @@ public class Query<T> {
         return id;
     }
 
-    public Map<String, String> getSaveData(){
+    private Map<String, String> getDefaultData() {
         Map<String, String> data = new LinkedHashMap<>();
         data.put("table", this.table);
+        return data;
+    }
+
+    public Map<String, String> getSaveData(){
+        Map<String, String> data = getDefaultData();
         data.put("columns", this.columns.stream().map(column -> column.getKey()).collect(Collectors.joining(",")));
         data.put("parameters", this.columns.stream().map(column -> toSqlColumn(column.getValue())).collect(Collectors.joining(",")));
 
@@ -64,14 +69,19 @@ public class Query<T> {
     }
 
     public Map<String, String> getUpdateData(){
-        Map<String, String> data = new LinkedHashMap<>();
-        data.put("table", this.table);
+        Map<String, String> data = getDefaultData();
         data.put("parameters", this.columns
                 .stream()
                 .filter(column -> column.getValue() != null && !column.getValue().isEmpty())
                 .map(column -> column.getKey()+"="+toSqlColumn(column.getValue()))
                 .collect(Collectors.joining(",")));
         data.put("condition", this.id.getKey()+"="+toSqlColumn(this.id.getValue()));
+
+        return data;
+    }
+
+    public Map<String, String> getFindData(Criteria criteria){
+        Map<String, String> data = getDefaultData();
 
         return data;
     }
