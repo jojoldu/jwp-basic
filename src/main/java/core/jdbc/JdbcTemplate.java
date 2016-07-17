@@ -26,10 +26,10 @@ public class JdbcTemplate {
         }
     }
 
-    public static <T> T queryForObject(String sql, PreparedGenerator preparedGenerator, RowMapper<T> rowMapper){
+    public static <T> T queryForObject(String sql, RowMapper<T> rowMapper){
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
-            ResultSet rs = preparedGenerator.map(pstmt).executeQuery()){
+            ResultSet rs = pstmt.executeQuery()){
 
             return rowMapper.execute(rs);
         }catch(SQLException se){

@@ -42,6 +42,26 @@ public class Query<T> {
         }
     }
 
+    public Query(Class<T> t) {
+        this.table = t.getAnnotation(Table.class).name();
+        this.columns = new ArrayList<>();
+        Method methods[] = t.getDeclaredMethods();
+        for(Method m : methods){
+            core.annotations.Column column = m.getAnnotation(core.annotations.Column.class);
+            if(column != null){
+                try {
+                    Column c = new Column(column.name(), (String)m.invoke(t));
+                    columns.add(c);
+                    if(m.getAnnotation(Id.class) != null){
+                        this.id = c;
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+    }
+
     public String getTable() {
         return table;
     }
@@ -82,7 +102,7 @@ public class Query<T> {
 
     public Map<String, String> getFindData(Criteria criteria){
         Map<String, String> data = getDefaultData();
-
+        data.put("condition", criteria.getConditions());
         return data;
     }
 

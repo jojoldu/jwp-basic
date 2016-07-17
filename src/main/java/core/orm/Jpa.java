@@ -4,6 +4,7 @@ import core.jdbc.JdbcTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,12 +33,22 @@ public class Jpa {
         }
     }
 
-    public static <T>List<T> find(T t){
-        Query query = new Query<>(t);
+    public static <T>T find(Class<T> clazz, Criteria criteria){
+        Query query = new Query<>(clazz);
+        try{
+            return JdbcTemplate.queryForObject();
+        }catch (Exception e){
+            logger.error("Jpa find error", e);
+            return null;
+        }
+    }
+
+    public static <T> List<T> findAll(Class<T> clazz, Criteria criteria){
+        Query query = new Query<>(clazz);
         try{
             return null;
         }catch (Exception e){
-            logger.error("Jpa update error", e);
+            logger.error("Jpa find error", e);
             return null;
         }
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.JdbcTemplate;
+import core.orm.Criteria;
 import core.orm.Jpa;
 import next.model.User;
 import org.slf4j.Logger;
@@ -18,6 +19,10 @@ public class UserDao {
 
 	public int update(User user) {
 		return Jpa.update(user);
+	}
+
+	public User findByUserId(String userId) {
+		return Jpa.find(User.class, new Criteria().add("userId", userId));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -39,7 +44,7 @@ public class UserDao {
 	}
 
 
-	public User findByUserId(String userId) {
+/*	public User findByUserId(String userId) {
 		return JdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?",
 				(pstmt) -> {
 					pstmt.setString(1, userId);
@@ -57,6 +62,6 @@ public class UserDao {
 					return user;
 				}
 		);
-	}
+	}*/
 
 }
