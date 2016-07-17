@@ -1,11 +1,10 @@
 package next.dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.JdbcTemplate;
-import core.jdbc.Jpa;
+import core.orm.Jpa;
 import next.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +34,7 @@ public class UserDao {
 								rs.getString("email")));
 					}
 					return list;
-				},
-				(Class<List<User>>)(Object)List.class
+				}
 		);
 	}
 
@@ -57,8 +55,7 @@ public class UserDao {
 								rs.getString("email"));
 					}
 					return user;
-				},
-				User.class
+				}
 		);
 	}
 
