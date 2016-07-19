@@ -36,7 +36,7 @@ public class Jpa {
     public static <T>T find(Class<T> clazz, Criteria criteria){
         Query query = new Query<>(clazz);
         try{
-            return JdbcTemplate.queryForObject();
+            return JdbcTemplate.queryForObject(QueryGenerator.getFind(query.getFindData(criteria)));
         }catch (Exception e){
             logger.error("Jpa find error", e);
             return null;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.JdbcTemplate;
+import core.orm.Conditions;
 import core.orm.Criteria;
 import core.orm.Jpa;
 import next.model.User;
@@ -22,7 +23,7 @@ public class UserDao {
 	}
 
 	public User findByUserId(String userId) {
-		return Jpa.find(User.class, new Criteria().add("userId", userId));
+		return Jpa.find(User.class, new Criteria().add(Conditions.eq("userId", userId)));
 	}
 
 	@SuppressWarnings("unchecked")

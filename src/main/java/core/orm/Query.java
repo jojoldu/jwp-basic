@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -106,7 +107,13 @@ public class Query<T> {
         return data;
     }
 
+    public T getFindResult(ResultSet rs){
+
+    }
+
     private String toSqlColumn(String value){
         return "\'"+value+"\'";
     }
+
+
 }
