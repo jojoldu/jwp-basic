@@ -14,7 +14,8 @@ public class ForwardController implements Controller {
 	}
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		return forwardUrl;
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		ModelAndView mav = new ModelAndView(req, resp, forwardUrl);
+		return mav;
 	}
 }
