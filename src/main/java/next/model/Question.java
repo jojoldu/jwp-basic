@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Question {
 	private long questionId;
-	
+
 	private String writer;
-	
+
 	private String title;
-	
+
 	private String contents;
-	
+
 	private Date createdDate;
-	
+
 	private int countOfComment;
 	
 	public Question(String writer, String title, String contents) {
