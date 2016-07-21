@@ -71,9 +71,11 @@
 								</div>
 								<div class="article-util">
 									<ul class="article-util-list">
-										<li>
-											<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=${answer.answerId}">수정</a>
-										</li>
+										<c:if test="${answer.writer eq loginUser.name}">
+											<li>
+												<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=${answer.answerId}">수정</a>
+											</li>
+										</c:if>
 										<li>
 											<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
 												<input type="hidden" name="answerId" class="answerId" value="${answer.answerId}">
