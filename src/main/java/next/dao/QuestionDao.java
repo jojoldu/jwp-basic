@@ -1,14 +1,45 @@
 package next.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
+import core.jdbc.KeyHolder;
+import core.jdbc.PreparedStatementCreator;
 import next.model.Question;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 
 public class QuestionDao {
+
+	public Question insert(Question question) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "INSERT INTO QUESTIONS (questionId, writer, title, contents, createdDate, countOfAnswer) VALUES (?, ?, ?, ?, ?, ?)";
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setLong(1, question.getQuestionId());
+				pstmt.setString(2, question.getWriter());
+				pstmt.setString(3, question.getTitle());
+				pstmt.setString(4, question.getContents());
+				pstmt.setTimestamp(5, new Timestamp(question.getTimeFromCreateDate()));
+				pstmt.setInt(6, question.getCountOfComment());
+				return pstmt;
+			}
+		};
+		KeyHolder keyHolder = new KeyHolder();
+		jdbcTemplate.update(psc, keyHolder);
+		return findById(keyHolder.getId());
+	}
+
+	public int findLastIndex() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "SELECT MAX(questionId) FROM QUESTIONS ";
+		RowMapper<Integer> rm = (rs) ->Integer.parseInt(rs.getString(1));
+
+		return jdbcTemplate.queryForObject(sql, rm);
+	}
+
 	public List<Question> findAll() {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
@@ -22,7 +53,7 @@ public class QuestionDao {
 						rs.getTimestamp("createdDate"),
 						rs.getInt("countOfAnswer"));
 			}
-			
+
 		};
 		
 		return jdbcTemplate.query(sql, rm);

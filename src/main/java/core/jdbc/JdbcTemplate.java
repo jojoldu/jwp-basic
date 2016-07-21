@@ -53,7 +53,10 @@ public class JdbcTemplate {
 		ResultSet rs = null;
 		try (Connection conn = ConnectionManager.getConnection(); 
 			PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pss.setParameters(pstmt);
+			if(pss != null){
+				pss.setParameters(pstmt);
+			}
+
 			rs = pstmt.executeQuery();
 
 			List<T> list = new ArrayList<T>();
@@ -79,6 +82,10 @@ public class JdbcTemplate {
 	}
 
 	private PreparedStatementSetter createPreparedStatementSetter(Object... parameters) {
+		if(parameters.length == 0){
+			return null;
+		}
+
 		return new PreparedStatementSetter() {
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
