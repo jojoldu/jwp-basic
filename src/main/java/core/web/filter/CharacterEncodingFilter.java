@@ -1,13 +1,7 @@
 package core.web.filter;
 
+import javax.servlet.*;
 import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 
 public class CharacterEncodingFilter implements Filter {
 	private static final String DEFAULT_ENCODING = "UTF-8";
@@ -20,6 +14,7 @@ public class CharacterEncodingFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		request.setCharacterEncoding(DEFAULT_ENCODING);
+		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding(DEFAULT_ENCODING);
 		chain.doFilter(request, response);
 
