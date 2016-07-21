@@ -55,7 +55,7 @@
 					<div class="qna-comment-slipp">
 						<p class="qna-comment-count"><strong>${question.countOfComment}</strong>개의 의견</p>
 						<div class="qna-comment-slipp-articles">
-							<c:forEach var="answoer" items="${answers}">
+							<c:forEach var="answer" items="${answers}">
 							<article class="article">
 								<div class="article-header">
 									<div class="article-header-thumb">
@@ -76,8 +76,8 @@
 										</li>
 										<li>
 											<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
-												<input type="hidden" name="answerId" value="${answer.answerId}">
-												<button type="submit" class="link-delete-article">삭제</button>
+												<input type="hidden" name="answerId" class="answerId" value="${answer.answerId}">
+												<button type="submit" class="link-delete-article deleteBtn">삭제</button>
 											</form>
 										</li>
 									</ul>

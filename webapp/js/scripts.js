@@ -1,5 +1,23 @@
 // $(".qna-comment").on("click", ".answerWrite input[type=submit]", addAnswer);
 $(".answerWrite input[type=submit]").click(addAnswer);
+$(".deleteBtn").click(deleteAnswer);
+
+function deleteAnswer(e){
+  e.preventDefault();
+  var $this = $(e.target);
+  var answerId = $this.closest('form').find('.answerId').val();
+
+  $.ajax({
+    type : 'post',
+    url : '/api/qna/deleteAnswer',
+    data : {"answerId": answerId},
+    dataType : 'json',
+    error: onError,
+    success : function(){
+      $this.closest('.article').hide();
+    }
+  });
+}
 
 function addAnswer(e) {
   e.preventDefault();
@@ -12,7 +30,7 @@ function addAnswer(e) {
     data : queryString,
     dataType : 'json',
     error: onError,
-    success : onSuccess,
+    success : onSuccess
   });
 }
 
