@@ -12,13 +12,13 @@ import core.jdbc.RowMapper;
 public class QuestionDao {
 
 	public void increaseCommentCount(Long questionId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "update QUESTIONS set countOfAnswer=countOfAnswer+1 where questionId=?";
 		jdbcTemplate.update(sql, questionId);
 	}
 
 	public Question insert(Question question) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "INSERT INTO QUESTIONS (questionId, writer, title, contents, createdDate, countOfAnswer) VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
@@ -39,7 +39,7 @@ public class QuestionDao {
 	}
 
 	public int findLastIndex() {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "SELECT MAX(questionId) FROM QUESTIONS ";
 		RowMapper<Integer> rm = (rs) ->Integer.parseInt(rs.getString(1));
 
@@ -47,7 +47,7 @@ public class QuestionDao {
 	}
 
 	public List<Question> findAll() {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
 				+ "order by questionId desc";
 		
@@ -66,7 +66,7 @@ public class QuestionDao {
 	}
 
 	public Question findById(long questionId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "SELECT questionId, writer, title, contents, createdDate, countOfAnswer FROM QUESTIONS "
 				+ "WHERE questionId = ?";
 		
