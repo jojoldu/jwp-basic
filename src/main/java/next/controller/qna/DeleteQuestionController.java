@@ -27,6 +27,11 @@ public class DeleteQuestionController extends AbstractController {
     private QuestionDao questionDao;
     private AnswerDao answerDao;
 
+    public DeleteQuestionController(QuestionDao questionDao, AnswerDao answerDao) {
+        this.questionDao = questionDao;
+        this.answerDao = answerDao;
+    }
+
     public boolean canDelete(long questionId){
         Question question = questionDao.findById(questionId);
         List<Answer> answers = answerDao.findAllByQuestionId(questionId);

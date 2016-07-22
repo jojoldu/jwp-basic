@@ -13,6 +13,8 @@ import next.controller.user.ProfileController;
 import next.controller.user.UpdateFormUserController;
 import next.controller.user.UpdateUserController;
 
+import next.dao.AnswerDao;
+import next.dao.QuestionDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +39,7 @@ public class RequestMapping {
 		mappings.put("/api/qna/deleteAnswer", new DeleteAnswerController());
 		mappings.put("/qna/create", new AddQuestionController());
 		mappings.put("/api/qna/list", new ListQuestionController());
-		mappings.put("/qna/deleteQuestion", new DeleteQuestionController());
+		mappings.put("/qna/deleteQuestion", new DeleteQuestionController(new QuestionDao(), new AnswerDao()));
 
 		logger.info("Initialized Request Mapping!");
 	}
