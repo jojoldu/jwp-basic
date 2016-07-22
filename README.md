@@ -11,4 +11,4 @@ contextInitialized 에 있는 DB생성, DB테이블 및 row데이터 생성, DB�
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
 * dao의 경우 데이터를 갖고있지 않아 문제가 없지만<br/> 
-question과 answers의 경우 메소드 실행시마다 서로 다른 데이터가 호출되고 리턴되지않고 ShowController에서 갖고있어 사용자가 요구한 데이터가 호출되지 않는 경우가 발생할수있다. 
+question과 answers의 경우 메소드 실행시마다 서로 다른 데이터가 호출되는데 해당 데이터를 ShowController가 갖고 있어 서로 다른 데이터가 사용자에게 전달될수 있다. 
