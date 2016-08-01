@@ -6,10 +6,20 @@ import javax.servlet.http.HttpServletResponse;
 import core.mvc.Controller;
 import core.mvc.ModelAndView;
 
+import java.lang.reflect.Method;
+
 public class HandlerExecution {
 
-	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private Class clazz;
+	private Method method;
 
-		return null;
+	public HandlerExecution(Class clazz, Method method) {
+		this.clazz = clazz;
+		this.method = method;
+	}
+
+	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object object = this.clazz.newInstance();
+		return (ModelAndView) method.invoke(object, request, response);
 	}
 }

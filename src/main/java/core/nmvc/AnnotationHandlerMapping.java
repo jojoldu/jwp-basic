@@ -31,7 +31,8 @@ public class AnnotationHandlerMapping {
 		for(Class clazz : scanner.getFactory().keySet()){
 			Set<Method> methods = ReflectionUtils.getAllMethods(clazz, ReflectionUtils.withAnnotation(RequestMapping.class));
 			for(Method method : methods){
-				handlerExecutions.put(createHandlerKey(method.getDeclaredAnnotation(RequestMapping.class)), new HandlerExecution());
+				HandlerKey handlerKey = createHandlerKey(method.getDeclaredAnnotation(RequestMapping.class));
+				handlerExecutions.put(handlerKey, new HandlerExecution(clazz, method));
 			}
 		}
 	}
