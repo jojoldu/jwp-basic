@@ -43,4 +43,12 @@ public class HandlerKey {
 			return false;
 		return true;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public RequestMethod getRequestMethod() {
+		return requestMethod;
+	}
 }

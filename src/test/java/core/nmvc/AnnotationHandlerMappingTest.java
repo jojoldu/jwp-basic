@@ -2,12 +2,19 @@ package core.nmvc;
 
 import static org.junit.Assert.*;
 
+import core.annotation.RequestMapping;
+import core.annotation.RequestMethod;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import core.mvc.ModelAndView;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 public class AnnotationHandlerMappingTest {
     private AnnotationHandlerMapping handlerMapping;
@@ -20,7 +27,22 @@ public class AnnotationHandlerMappingTest {
         
         response = new MockHttpServletResponse();
     }
-    
+
+    @Test
+    public void init() throws Exception {
+        HandlerKey[] array = {
+                new HandlerKey("/users", RequestMethod.GET),
+                new HandlerKey("/users", RequestMethod.POST),
+                new HandlerKey("/users/show", RequestMethod.GET)};
+
+        List<HandlerKey> handlerKeys = Arrays.asList(array);
+
+        for(HandlerKey handlerKey : handlerMapping.getHandlerExecutions().keySet()){
+            assertTrue(handlerKeys.contains(handlerKey));
+        }
+
+    }
+
     @Test
     public void list() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/users");
