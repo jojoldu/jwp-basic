@@ -2,9 +2,7 @@ package core.nmvc;
 
 import static org.junit.Assert.*;
 
-import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -12,7 +10,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import core.mvc.ModelAndView;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 

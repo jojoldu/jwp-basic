@@ -1,6 +1,7 @@
 package core.nmvc;
 
 import com.google.common.collect.Maps;
+import core.annotation.HandlerMapping;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
 import org.reflections.ReflectionUtils;
@@ -12,7 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-public class AnnotationHandlerMapping {
+public class AnnotationHandlerMapping implements HandlerMapping{
 	private static final Logger logger = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
 	private Object[] basePackage;
 	
@@ -40,6 +41,7 @@ public class AnnotationHandlerMapping {
 		return new HandlerKey(requestMapping.value(), requestMapping.method());
 	}
 
+	@Override
 	public HandlerExecution getHandler(HttpServletRequest request) {
 		String requestUri = request.getRequestURI();
 		RequestMethod rm = RequestMethod.valueOf(request.getMethod().toUpperCase());
