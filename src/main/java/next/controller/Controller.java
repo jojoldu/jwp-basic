@@ -7,5 +7,5 @@ import javax.servlet.http.HttpServletResponse;
  * Created by jojoldu@gmail.com on 2016-07-11.
  */
 public interface Controller {
-    String run(HttpServletRequest req, HttpServletResponse res);
+    String execute(HttpServletRequest req, HttpServletResponse res);
 }
